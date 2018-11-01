@@ -8,7 +8,7 @@ namespace Etl.Logger {
             _hubContext = hubContext;
         }
         public void Log (string message) {
-            _hubContext.Clients.All.SendAsync("sendToAll", message);
+            _hubContext.Clients.All.SendAsync("Log", message);
         }
     }
 }

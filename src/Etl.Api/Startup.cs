@@ -26,6 +26,7 @@ namespace Etl.Api {
                 builder
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
+                    .AllowCredentials()
                     .WithOrigins ("http://localhost:4200");
             }));
 
@@ -41,12 +42,10 @@ namespace Etl.Api {
             } else {
                 app.UseHsts ();
             }
-
             app.UseCors("CorsPolicy");
             app.UseSignalR (routes => {
                 routes.MapHub<LoggerHub> ("/logger");
             });
-
             app.UseHttpsRedirection ();
             app.UseMvc ();
         }
