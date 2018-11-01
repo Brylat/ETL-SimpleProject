@@ -17,6 +17,7 @@
     <ProjectReference Include="..\Etl.Extract.Service\Etl.Extract.Service.csproj" />
     <ProjectReference Include="..\Etl.Transform.Service\Etl.Transform.Service.csproj" />
     <ProjectReference Include="..\Etl.Load.Service\Etl.Load.Service.csproj" />
+    <ProjectReference Include="..\Etl.Logger\Etl.Logger.csproj" />
   </ItemGroup>
 
 </Project>

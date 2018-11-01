@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Etl.Logger;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Etl.Api.Controllers
@@ -10,10 +11,17 @@ namespace Etl.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ICustomLogger _logger;
+        public ValuesController(ICustomLogger logger)
+        {
+            _logger = logger;
+        }
+        
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {
+        {     
+            _logger.Log("elo");      
             return new string[] { "value1", "value2" };
         }
 
