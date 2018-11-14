@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Etl.Extract.Service;
 using Etl.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,12 +27,13 @@ namespace Etl.Api {
                 builder
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
-                    .AllowCredentials()
+                    .AllowCredentials ()
                     .WithOrigins ("http://localhost:4200");
             }));
 
             services.AddSignalR ();
             services.AddScoped<ICustomLogger, CustomLogger> ();
+            services.AddScoped<IExtractor, Extractor> ();
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
 
@@ -42,7 +44,7 @@ namespace Etl.Api {
             } else {
                 app.UseHsts ();
             }
-            app.UseCors("CorsPolicy");
+            app.UseCors ("CorsPolicy");
             app.UseSignalR (routes => {
                 routes.MapHub<LoggerHub> ("/logger");
             });

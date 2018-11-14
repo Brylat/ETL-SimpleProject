@@ -5,6 +5,12 @@
     <ProjectReference Include="..\Etl.Logger\Etl.Logger.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.10" />
+    <!-- <PackageReference Include="AngleSharp.Scripting.JavaScript" Version="0.5.1" /> -->
+    <PackageReference Include="OpenScraping" Version="1.1.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>

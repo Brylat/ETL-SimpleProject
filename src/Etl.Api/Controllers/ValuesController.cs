@@ -2,52 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Etl.Extract.Service;
 using Etl.Logger;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Etl.Api.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
-    {
-        private readonly ICustomLogger _logger;
-        public ValuesController(ICustomLogger logger)
-        {
-            _logger = logger;
-        }
-        
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {     
-            _logger.Log("elo");      
-            return new string[] { "value1", "value2" };
-        }
+namespace Etl.Api.Controllers {
+        [Route ("api/[controller]")]
+        [ApiController]
+        public class ValuesController : ControllerBase {
+            private readonly ICustomLogger _logger;
+            private readonly IExtractor _extractor;
+            public ValuesController (ICustomLogger logger, IExtractor extractor) {
+                _logger = logger;
+                _extractor = extractor;
+            }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
+            // GET api/values
+            [HttpGet]
+            public ActionResult<IEnumerable<string>> Get () {
+                _logger.Log ("Witaj");
+                _extractor.Extract ();
+                return new string[] { "value1", "value2" };
+            }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+                // GET api/values/5
+                [HttpGet ("{id}")]
+                public ActionResult<string> Get (int id) {
+                    return "value";
+                }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+                // POST api/values
+                [HttpPost]
+                public void Post ([FromBody] string value) { }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                // PUT api/values/5
+                [HttpPut ("{id}")]
+                public void Put (int id, [FromBody] string value) { }
+
+                // DELETE api/values/5
+                [HttpDelete ("{id}")]
+                public void Delete (int id) { }
+            }
         }
-    }
-}
