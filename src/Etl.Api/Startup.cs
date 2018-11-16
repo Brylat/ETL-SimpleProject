@@ -34,6 +34,7 @@ namespace Etl.Api {
             services.AddSignalR ();
             services.AddScoped<ICustomLogger, CustomLogger> ();
             services.AddScoped<IExtractor, Extractor> ();
+            services.AddScoped<ICarModelExtractor, CarModelExtractor> ();
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
 
