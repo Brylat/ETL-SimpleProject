@@ -11,32 +11,30 @@ namespace Etl.Extract.Service {
 
         private readonly ICustomLogger _logger;
 
-        public Extractor(ICustomLogger logger)
-        {
+        public Extractor (ICustomLogger logger) {
             _logger = logger;
         }
 
         public async void Extract () {
             var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
-            _logger.Log($"Number of pages: {numberOfPage}");
+            _logger.Log ($"Number of pages: {numberOfPage}");
             var articlesUrl = new List<string> ();
             for (int i = 1; i <= numberOfPage; i++) {
                 articlesUrl.AddRange (await GetArticlesUrlFromPage (basicUrl + "?page=" + i));
             }
-            _logger.Log($"Number of articles: {articlesUrl.Count}");
+            _logger.Log ($"Number of articles: {articlesUrl.Count}");
             var articlesContent = new List<string> ();
 
-            foreach(var url in articlesUrl)
-            {
-                articlesContent.Add(await GetArticleContent(url));
+            foreach (var url in articlesUrl) {
+                articlesContent.Add (await GetArticleContent (url));
             }
         }
 
         private async Task<string> GetArticleContent (string url) {
             var config = Configuration.Default.WithDefaultLoader ()
                 .WithCss ();
-                // .WithJavaScript();
+            // .WithJavaScript();
             var document = await BrowsingContext.New (config).OpenAsync (url);
             return document.All
                 .Where (x => x.ClassName == "offer-content__main-column").Single ().OuterHtml;
