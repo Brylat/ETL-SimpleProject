@@ -41,7 +41,7 @@ namespace Etl.Extract.Service
                     ModelValue = item.GetAttribute("title").ToLower().Replace("  " + carBrand.ToLower().ToString() + " ", string.Empty).Replace(" ", "-").ToString()
                 });
             }
-            return carModelList;
+            return await Task.FromResult(carModelList);
         }
     }
 }
