@@ -1,21 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AngleSharp;
 using Etl.Logger;
+using Etl.Shared;
+using Etl.Shared.Factories;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Etl.Extract.Service {
     public class Extractor : IExtractor {
 
         private readonly ICustomLogger _logger;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private ISender _sender;
 
-        public Extractor (ICustomLogger logger) {
+        public Extractor (ICustomLogger logger, IHostingEnvironment hostingEnvironment) {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async void Extract () {
+            InitSender(WorkMode.Partial); //set from method param
             var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
             _logger.Log ($"Number of pages: {numberOfPage}");
@@ -24,13 +32,12 @@ namespace Etl.Extract.Service {
                 articlesUrl.AddRange (await GetArticlesUrlFromPage (basicUrl + "?page=" + i));
             }
             _logger.Log ($"Number of articles: {articlesUrl.Count}");
-            var articlesContent = new List<string> ();
 
             foreach (var url in articlesUrl) {
-                articlesContent.Add (await GetArticleContent (url));
+                _sender.Send (await GetArticleContent (url));
             }
         }
-
+        
         private async Task<string> GetArticleContent (string url) {
             var config = Configuration.Default.WithDefaultLoader ()
                 .WithCss ();
@@ -76,6 +83,11 @@ namespace Etl.Extract.Service {
                 }
             }
             return await Task.FromResult<int> (0);
+        }
+
+        private void InitSender(WorkMode workMode) {
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract");
+            _sender = new SenderFactory(workMode, path).GetSender();
         }
     }
 }
