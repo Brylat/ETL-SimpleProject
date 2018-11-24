@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Etl.Load.Service\Etl.Load.Service.csproj" />
     <ProjectReference Include="..\Etl.Logger\Etl.Logger.csproj" />
+    <ProjectReference Include="..\Etl.Shared\Etl.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

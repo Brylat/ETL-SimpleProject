@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Etl.Logger\Etl.Logger.csproj" />
+    <ProjectReference Include="..\Etl.Shared\Etl.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
