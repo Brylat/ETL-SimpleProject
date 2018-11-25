@@ -8,6 +8,7 @@ using AngleSharp;
 using Etl.Logger;
 using Etl.Shared;
 using Etl.Shared.Factories;
+using Etl.Transform.Service;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Etl.Extract.Service {
@@ -15,11 +16,13 @@ namespace Etl.Extract.Service {
 
         private readonly ICustomLogger _logger;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ITransformer _transformerService;
         private ISender _sender;
 
-        public Extractor (ICustomLogger logger, IHostingEnvironment hostingEnvironment) {
+        public Extractor (ICustomLogger logger, IHostingEnvironment hostingEnvironment, ITransformer transformerService) {
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
+            _transformerService = transformerService;
         }
 
         public async void Extract () {
@@ -87,7 +90,7 @@ namespace Etl.Extract.Service {
 
         private void InitSender(WorkMode workMode) {
             var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"); //todo path from config
-            _sender = new SenderFactory(workMode, path).GetSender();
+            _sender = new SenderFactory(workMode, path, _transformerService).GetSender();
         }
     }
 }

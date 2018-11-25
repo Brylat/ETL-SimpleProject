@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etl.Extract.Service;
 using Etl.Logger;
+using Etl.Transform.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,7 @@ namespace Etl.Api {
             services.AddSignalR ();
             services.AddScoped<ICustomLogger, CustomLogger> ();
             services.AddScoped<IExtractor, Extractor> ();
+            services.AddScoped<ITransformer, Transformer> ();
             services.AddScoped<ICarModelExtractor, CarModelExtractor> ();
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
