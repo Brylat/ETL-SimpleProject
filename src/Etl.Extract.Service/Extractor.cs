@@ -86,7 +86,7 @@ namespace Etl.Extract.Service {
         }
 
         private void InitSender(WorkMode workMode) {
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract");
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"); //todo path from config
             _sender = new SenderFactory(workMode, path).GetSender();
         }
     }

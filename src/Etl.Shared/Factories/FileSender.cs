@@ -7,13 +7,10 @@ namespace Etl.Shared.Factories {
 
         public FileSender (string path) {
             _path = path;
+            Directory.CreateDirectory (_path);
         }
         public void Send (string content) {
-            string filePath;
-            do {
-                filePath = Path.Combine (_path, string.Format (@"{0}.tmp", Guid.NewGuid ()));
-            } while (File.Exists (filePath));
-
+            var filePath = Path.Combine (_path, string.Format (@"{0}.tmp", Guid.NewGuid ()));
             File.WriteAllText (filePath, content);
         }
     }
