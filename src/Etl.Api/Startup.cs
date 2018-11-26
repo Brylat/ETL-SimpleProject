@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etl.Extract.Service;
+using Etl.Load.Service;
 using Etl.Logger;
+using Etl.Shared.FileLoader;
+using Etl.Transform.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +37,9 @@ namespace Etl.Api {
             services.AddSignalR ();
             services.AddScoped<ICustomLogger, CustomLogger> ();
             services.AddScoped<IExtractor, Extractor> ();
+            services.AddScoped<ITransformer, Transformer> ();
+            services.AddScoped<ILoader, Loader>();
+            services.AddScoped<IFileLoader, FileLoader>();
             services.AddScoped<ICarModelExtractor, CarModelExtractor> ();
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
@@ -51,6 +57,11 @@ namespace Etl.Api {
             });
             app.UseHttpsRedirection ();
             app.UseMvc ();
+
+            // using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
+            //     var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext> ();
+            //     context.Database.EnsureCreated ();
+            // }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etl.Extract.Service;
 using Etl.Logger;
+using Etl.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Etl.Api.Controllers {
@@ -21,7 +22,7 @@ namespace Etl.Api.Controllers {
             [HttpGet]
             public ActionResult<IEnumerable<string>> Get () {
                 _logger.Log ("Witaj");
-                _extractor.Extract ();
+                _extractor.Extract (WorkMode.Partial);
                 return new string[] { "value1", "value2" };
             }
 

@@ -1,7 +1,9 @@
+using Etl.Shared;
+
 namespace Etl.Extract.Service
 {
     public interface IExtractor
     {
-         void Extract();
+         void Extract(WorkMode workMode);
     }
 }

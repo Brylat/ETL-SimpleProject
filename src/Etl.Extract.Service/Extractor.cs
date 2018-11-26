@@ -1,42 +1,51 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AngleSharp;
 using Etl.Logger;
+using Etl.Shared;
+using Etl.Shared.Factories;
+using Etl.Shared.FileLoader;
+using Etl.Transform.Service;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Etl.Extract.Service {
     public class Extractor : IExtractor {
 
         private readonly ICustomLogger _logger;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ITransformer _transformerService;
+        private ISender _sender;
 
-        public Extractor(ICustomLogger logger)
-        {
+        public Extractor (ICustomLogger logger, IHostingEnvironment hostingEnvironment, ITransformer transformerService) {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
+            _transformerService = transformerService;
         }
 
-        public async void Extract () {
+        public async void Extract (WorkMode workMode) {
+            InitSender(workMode);
             var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
-            _logger.Log($"Number of pages: {numberOfPage}");
+            _logger.Log ($"Number of pages: {numberOfPage}");
             var articlesUrl = new List<string> ();
             for (int i = 1; i <= numberOfPage; i++) {
                 articlesUrl.AddRange (await GetArticlesUrlFromPage (basicUrl + "?page=" + i));
             }
-            _logger.Log($"Number of articles: {articlesUrl.Count}");
-            var articlesContent = new List<string> ();
+            _logger.Log ($"Number of articles: {articlesUrl.Count}");
 
-            foreach(var url in articlesUrl)
-            {
-                articlesContent.Add(await GetArticleContent(url));
+            foreach (var url in articlesUrl) {
+                _sender.Send (await GetArticleContent (url));
             }
         }
-
+        
         private async Task<string> GetArticleContent (string url) {
             var config = Configuration.Default.WithDefaultLoader ()
                 .WithCss ();
-                // .WithJavaScript();
+            // .WithJavaScript();
             var document = await BrowsingContext.New (config).OpenAsync (url);
             return document.All
                 .Where (x => x.ClassName == "offer-content__main-column").Single ().OuterHtml;
@@ -78,6 +87,11 @@ namespace Etl.Extract.Service {
                 }
             }
             return await Task.FromResult<int> (0);
+        }
+
+        private void InitSender(WorkMode workMode) {
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"); //todo path from config
+            _sender = new SenderFactory(workMode, path, _transformerService).GetSender();
         }
     }
 }
