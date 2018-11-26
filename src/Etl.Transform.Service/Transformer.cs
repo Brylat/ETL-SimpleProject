@@ -32,7 +32,7 @@ namespace Etl.Transform.Service {
         }
 
         public void Transform (string content) {
-            //transform intoJson
+            //transform intoJson, create object template in shared becouse we need the same object in Loader to deserialize
             var newContent = content;
             
             _sender.Send(newContent);
