@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="main-heading">{{ 'etl-client.examples.form.title' | translate }}</h1>
+    </div>
+  </div>
+  <ng-container *ngIf="formValueChanges$ | async as updatedForm">
+    {{update(updatedForm)}}
+  </ng-container>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-card>
+
+          <span class="d-flex justify-content-between align-items-baseline">
+            <h2>{{ 'etl-client.examples.form.subtitle1' | translate }}</h2>
+            <mat-slide-toggle formControlName="autosave">
+              {{ 'etl-client.examples.form.autosave' | translate }}
+            </mat-slide-toggle>
+          </span>
+
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Select brand" [(ngModel)]="selectedModel" name="model" (selectionChange)="onSelectChange($event.value)"
+                formControlName="brand">
+                <mat-option *ngFor="let brand of brands" [value]="brand.value">
+                  {{brand.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Select car" [(ngModel)]="selectedCar" name="car" [disabled]="disableSelect" formControlName="model">
+                <mat-option *ngFor="let car of cars" [value]="car.modelValue">
+                  {{car.modelName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Price from" [(ngModel)]="priceFrom" name="priceFrom" formControlName="priceFrom">
+                <mat-option *ngFor="let price of prices" [value]="price.value">
+                  {{price.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('priceFrom').invalid">
+                {{ 'etl-client.examples.form.placeholder1' | translate }} {{ 'etl-client.examples.form.error1' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Price to" [(ngModel)]="priceTo" name="priceTo" formControlName="priceTo">
+                <mat-option *ngFor="let price of prices" [value]="price.value">
+                  {{price.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('priceTo').invalid">
+                {{ 'etl-client.examples.form.placeholder1' | translate }} {{ 'etl-client.examples.form.error1' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Fuel" formControlName="fuelList" multiple>
+                <mat-option *ngFor="let fuel of fuelList" [value]="fuel.value">{{fuel.viewValue}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Year from" [(ngModel)]="yearFrom" name="yearFrom" formControlName="yearFrom">
+                <mat-option *ngFor="let year of yearList" [value]="year.value">
+                  {{year.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('yearFrom').invalid">
+                {{ 'etl-client.examples.form.placeholder1' | translate }} {{ 'etl-client.examples.form.error1' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Year to" [(ngModel)]="yearTo" name="yearTo" formControlName="yearTo">
+                <mat-option *ngFor="let year of yearList" [value]="year.value">
+                  {{year.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('yearTo').invalid">
+                {{ 'etl-client.examples.form.placeholder1' | translate }} {{ 'etl-client.examples.form.error1' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input formControlName="city" type="text" placeholder="Enter a city" aria-label="Number" matInput [matAutocomplete]="auto"
+                (change)="onCityChange($event.value)">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let item of githubAutoComplete$ | async; let index = index" [value]="item.name">
+                  {{ item.name | titlecase}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field style="margin-left: 15px; margin-right: 15px;" [ngClass]="routeAnimationsElements">
+              <mat-select placeholder="Distance" formControlName="dist">
+                <mat-option *ngFor="let dist of distList" [value]="dist.value">{{dist.viewValue}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="row buttons d-flex justify-content-between pad">
+            <button mat-raised-button color="primary" [ngClass]="routeAnimationsElements">
+              {{ 'etl-client.examples.form.send' | translate }}
+            </button>
+            <button type="button" mat-raised-button color="accent" [disabled]="form.get('autosave').value" [ngClass]="routeAnimationsElements"
+              (click)="save()">
+              {{ 'etl-client.examples.form.save' | translate }}
+            </button>
+            <button type="reset" mat-raised-button (click)="getSuggestedCities()" [ngClass]="routeAnimationsElements">
+              {{ 'etl-client.examples.form.reset' | translate }}
+            </button>
+          </div>
+
+        </mat-card>
+      </div>
+    </div>
+  </form>
+
+</div>

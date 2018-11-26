@@ -1,0 +1,9 @@
+$etl-client-black-primary: mat-palette($mat-grey, 700, 300, 900);
+$etl-client-black-accent: mat-palette($mat-blue-grey, 400);
+$etl-client-black-warn: mat-palette($mat-red, 500);
+
+$etl-client-black-theme: mat-dark-theme(
+  $etl-client-black-primary,
+  $etl-client-black-accent,
+  $etl-client-black-warn
+);

@@ -1,0 +1,9 @@
+$etl-client-nature-primary: mat-palette($mat-brown, 700, 300, 900);
+$etl-client-nature-accent: mat-palette($mat-deep-purple, 300);
+$etl-client-nature-warn: mat-palette($mat-red, 600);
+
+$etl-client-nature-theme: mat-light-theme(
+  $etl-client-nature-primary,
+  $etl-client-nature-accent,
+  $etl-client-nature-warn
+);

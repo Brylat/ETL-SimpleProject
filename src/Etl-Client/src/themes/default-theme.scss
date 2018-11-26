@@ -1,0 +1,5 @@
+$etl-client-primary: mat-palette($mat-indigo, 800, 300, 900);
+$etl-client-accent: mat-palette($mat-light-blue);
+$etl-client-warn: mat-palette($mat-pink, 600);
+
+$etl-client-theme: mat-light-theme($etl-client-primary, $etl-client-accent, $etl-client-warn);

@@ -1,0 +1,44 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+      <h1 class="main-heading">{{ 'etl-client.examples.notifications.title' | translate }}</h1>
+    </div>
+  </div>
+  
+  <div class="row item" [ngClass]="routeAnimationsElements">
+    <button mat-raised-button class="col-3 default" (click)="default()">
+      {{ 'etl-client.examples.notifications.default.title' | translate }}
+    </button>
+    <p class="col-9">{{ 'etl-client.examples.notifications.default.description' | translate }}</p>
+  </div>
+
+  <div class="row item" [ngClass]="routeAnimationsElements">
+    <button mat-raised-button class="col-3 information" (click)="info()">
+      {{ 'etl-client.examples.notifications.info.title' | translate }}
+    </button>
+    <p class="col-9">{{ 'etl-client.examples.notifications.info.description' | translate }}</p>
+  </div>
+
+  <div class="row item" [ngClass]="routeAnimationsElements">
+    <button mat-raised-button class="col-3 success" (click)="success()">
+      {{ 'etl-client.examples.notifications.success.title' | translate }}
+    </button>
+    <p class="col-9">{{ 'etl-client.examples.notifications.success.description' | translate }}</p>
+  </div>
+
+  <div class="row item" [ngClass]="routeAnimationsElements">
+    <button mat-raised-button class="col-3 warning" (click)="warn()">
+      {{ 'etl-client.examples.notifications.warning.title' | translate }}
+    </button>
+    <p class="col-9">{{ 'etl-client.examples.notifications.warning.description' | translate }}</p>
+  </div>
+
+  <div class="row item" [ngClass]="routeAnimationsElements" >
+    <button mat-raised-button class="col-3 error" (click)="error()">
+      {{ 'etl-client.examples.notifications.error.title' | translate }}
+    </button>
+    <p class="col-9">{{ 'etl-client.examples.notifications.error.description' | translate }}</p>
+  </div>
+
+</div>
