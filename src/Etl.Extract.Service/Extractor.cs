@@ -8,6 +8,7 @@ using AngleSharp;
 using Etl.Logger;
 using Etl.Shared;
 using Etl.Shared.Factories;
+using Etl.Shared.FileLoader;
 using Etl.Transform.Service;
 using Microsoft.AspNetCore.Hosting;
 
@@ -25,8 +26,8 @@ namespace Etl.Extract.Service {
             _transformerService = transformerService;
         }
 
-        public async void Extract () {
-            InitSender(WorkMode.Partial); //set from method param
+        public async void Extract (WorkMode workMode) {
+            InitSender(workMode);
             var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
             _logger.Log ($"Number of pages: {numberOfPage}");
