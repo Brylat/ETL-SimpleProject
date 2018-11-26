@@ -26,7 +26,7 @@ namespace Etl.Load.Service
 
         public void LoadFromFiles() {
             //catalog name from config
-            foreach(var fileContent in _fileLoader.GetNextFileCntent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform"))){
+            foreach(var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform"))){
                 Load(fileContent);
             }
         }

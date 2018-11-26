@@ -5,7 +5,7 @@ namespace Etl.Shared.FileLoader
 {
     public class FileLoader : IFileLoader
     {
-        public IEnumerable<string> GetNextFileCntent(string catalogPath)
+        public IEnumerable<string> GetNextFileContent(string catalogPath)
         {
             var fileList = Directory.EnumerateFiles(catalogPath);
             foreach(var file in fileList) {
