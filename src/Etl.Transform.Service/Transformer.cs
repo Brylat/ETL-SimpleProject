@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Etl.Load.Service;
 using Etl.Shared;
 using Etl.Shared.Factories;
@@ -57,24 +58,20 @@ namespace Etl.Transform.Service
             _fileLoader = fileLoader;
         }
 
-        public void Recive(string content)
-        {
+        public async Task Recive (string content) {
             InitSender(WorkMode.Continuous);
-            Transform(content);
+            await Transform (content);
         }
 
-        public void LoadFromFiles()
-        {
+        public async Task LoadFromFiles() {
             InitSender(WorkMode.Partial);
             //catalog name from config
-            foreach (var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract")))
-            {
-                Transform(fileContent);
+            foreach(var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"))){
+                await Transform(fileContent);
             }
         }
 
-        public void Transform(string content)
-        {
+        public async Task Transform (string content) {
             //transform intoJson, create object template in shared becouse we need the same object in Loader to deserialize
             var newContent = content;
             var configJson = GenerateJson();

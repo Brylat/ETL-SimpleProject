@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using Etl.Shared.Factories;
 
 namespace Etl.Load.Service
 {
     public interface ILoader : IInputConnector
     {
-         void Load(string content);
-         void LoadFromFiles();
+         Task Load(string content);
+         Task LoadFromFiles();
     }
 }

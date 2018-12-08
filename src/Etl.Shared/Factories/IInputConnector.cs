@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Etl.Shared.Factories
 {
     public interface IInputConnector
     {
-         void Recive(string content);
+         Task Recive(string content);
     }
 }

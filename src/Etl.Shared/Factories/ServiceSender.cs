@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Etl.Shared.Factories
 {
     public class ServiceSender : ISender
@@ -10,9 +12,9 @@ namespace Etl.Shared.Factories
             _service = service;
             _workMode = workMode;
         }
-        public void Send(string content)
+        public async Task Send(string content)
         {
-            _service.Recive(content);
+            await _service.Recive(content);
         }
     }
 }

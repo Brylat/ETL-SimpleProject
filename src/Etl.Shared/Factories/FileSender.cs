@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Etl.Shared.Factories {
     public class FileSender : ISender {
@@ -9,9 +10,10 @@ namespace Etl.Shared.Factories {
             _path = path;
             Directory.CreateDirectory (_path);
         }
-        public void Send (string content) {
+        public async Task Send (string content) {
             var filePath = Path.Combine (_path, string.Format (@"{0}.tmp", Guid.NewGuid ()));
             File.WriteAllText (filePath, content);
+            await Task.CompletedTask;
         }
     }
 }
