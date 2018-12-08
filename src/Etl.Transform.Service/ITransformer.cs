@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using Etl.Shared.Factories;
 
 namespace Etl.Transform.Service
 {
     public interface ITransformer : IInputConnector
     {
-         void Transform(string content);
-         void LoadFromFiles();
+         Task Transform(string content);
+         Task LoadFromFiles();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etl.Extract.Service;
 using Etl.Load.Service;
+using Etl.Load.Service.BaseContext;
 using Etl.Logger;
 using Etl.Shared.FileLoader;
 using Etl.Transform.Service;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,9 +40,11 @@ namespace Etl.Api {
             services.AddScoped<ICustomLogger, CustomLogger> ();
             services.AddScoped<IExtractor, Extractor> ();
             services.AddScoped<ITransformer, Transformer> ();
-            services.AddScoped<ILoader, Loader>();
-            services.AddScoped<IFileLoader, FileLoader>();
+            services.AddScoped<ILoader, Loader> ();
+            services.AddScoped<IFileLoader, FileLoader> ();
             services.AddScoped<ICarModelExtractor, CarModelExtractor> ();
+            services.AddDbContext<Context> (options =>
+                options.UseNpgsql ("Server=localhost;Database=Etl;UserId=postgres;Password=postgres"));
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
 
@@ -58,10 +62,10 @@ namespace Etl.Api {
             app.UseHttpsRedirection ();
             app.UseMvc ();
 
-            // using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
-            //     var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext> ();
-            //     context.Database.EnsureCreated ();
-            // }
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
+                var context = serviceScope.ServiceProvider.GetRequiredService<Context> ();
+                context.Database.EnsureCreated ();
+            }
         }
     }
 }

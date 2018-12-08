@@ -1,6 +1,10 @@
 using System.IO;
 using Etl.Shared.FileLoader;
 using Microsoft.AspNetCore.Hosting;
+using Etl.Load.Service.BaseContext;
+using Etl.Shared.Entity;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Etl.Load.Service
 {
@@ -8,26 +12,29 @@ namespace Etl.Load.Service
     {
         private readonly IFileLoader _fileLoader;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly BaseContext.Context _context;
 
-        public Loader(IFileLoader fileLoader, IHostingEnvironment hostingEnvironment)
+        public Loader(IFileLoader fileLoader, IHostingEnvironment hostingEnvironment, BaseContext.Context context)
         {
             _fileLoader = fileLoader;
             _hostingEnvironment = hostingEnvironment;
+            _context = context;
         }
-        public void Load(string content)
+        public async Task Load(string content)
         {
-            throw new System.NotImplementedException();
+            var car = JsonConvert.DeserializeObject<CarEntity>(content);
+            await _context.AddAsync<CarEntity>(car);
         }
 
-        public void Recive(string content)
+        public async Task Recive(string content)
         {
-            Load(content);
+            await Load(content);
         }
 
-        public void LoadFromFiles() {
+        public async Task LoadFromFiles() {
             //catalog name from config
             foreach(var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform"))){
-                Load(fileContent);
+                await Load(fileContent);
             }
         }
     }

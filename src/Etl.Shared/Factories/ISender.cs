@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Etl.Shared.Factories
 {
     public interface ISender
     {
-         void Send(string content);
+         Task Send(string content);
     }
 }
