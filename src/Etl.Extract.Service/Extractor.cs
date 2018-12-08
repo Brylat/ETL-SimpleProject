@@ -26,8 +26,8 @@ namespace Etl.Extract.Service {
             _transformerService = transformerService;
         }
 
-        public async void Extract (WorkMode workMode) {
-            InitSender(workMode);
+        public async Task Extract (WorkMode workMode) {
+            await InitSender(workMode);
             var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
             _logger.Log ($"Number of pages: {numberOfPage}");
@@ -38,7 +38,7 @@ namespace Etl.Extract.Service {
             _logger.Log ($"Number of articles: {articlesUrl.Count}");
 
             foreach (var url in articlesUrl) {
-                _sender.Send (await GetArticleContent (url));
+                await _sender.Send (await GetArticleContent (url));
             }
         }
         
@@ -89,9 +89,9 @@ namespace Etl.Extract.Service {
             return await Task.FromResult<int> (0);
         }
 
-        private void InitSender(WorkMode workMode) {
+        private async Task InitSender(WorkMode workMode) {
             var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"); //todo path from config
-            _sender = new SenderFactory(workMode, path, _transformerService).GetSender();
+            _sender = await new SenderFactory(workMode, path, _transformerService).GetSender();
         }
     }
 }

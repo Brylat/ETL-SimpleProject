@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Etl.Shared;
 
 namespace Etl.Shared.Factories
@@ -13,7 +14,7 @@ namespace Etl.Shared.Factories
             _service = service;
         }
 
-        public ISender GetSender() {
+        public async Task<ISender> GetSender() {
             ISender sender = null;
             switch(_workMode) {
                 case WorkMode.Continuous:
@@ -25,7 +26,7 @@ namespace Etl.Shared.Factories
                 default:
                     break;
             }
-            return sender;
+            return await Task.FromResult(sender);
         }
     }
 }

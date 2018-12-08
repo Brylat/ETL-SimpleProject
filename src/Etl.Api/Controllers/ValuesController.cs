@@ -24,10 +24,10 @@ namespace Etl.Api.Controllers {
 
             // GET api/values
             [HttpGet]
-            public ActionResult<IEnumerable<string>> Get () {
+            public async Task<ActionResult<IEnumerable<string>>> Get () {
                 _logger.Log ("Witaj");
-               // _extractor.Extract (WorkMode.Partial);
-                _transformer.LoadFromFiles();
+                await _extractor.Extract (WorkMode.Continuous);
+                //_transformer.LoadFromFiles();
 
                 return new string[] { "value1", "value2" };
             }

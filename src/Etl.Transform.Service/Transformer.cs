@@ -73,13 +73,12 @@ namespace Etl.Transform.Service
 
         public async Task Transform (string content) {
             //transform intoJson, create object template in shared becouse we need the same object in Loader to deserialize
-            var newContent = content;
             var configJson = GenerateJson();
             var config = StructuredDataConfig.ParseJsonString(configJson);
             var openScraping = new StructuredDataExtractor(config);
-            var scrapingResults = openScraping.Extract(newContent);
+            var scrapingResults = openScraping.Extract(content);
 
-            _sender.Send(newContent);
+            await _sender.Send(scrapingResults.ToString());
         }
 
         private string GenerateJson(){
@@ -95,10 +94,10 @@ namespace Etl.Transform.Service
             return jsonObject.ToString();
         }
 
-        private void InitSender(WorkMode workMode)
+        private async Task InitSender(WorkMode workMode)
         {
             var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform"); //todo path from config
-            _sender = new SenderFactory(workMode, path, _loaderService).GetSender();
+            _sender = await new SenderFactory(workMode, path, _loaderService).GetSender();
         }
     }
 } 

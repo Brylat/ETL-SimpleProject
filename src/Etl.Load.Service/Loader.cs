@@ -23,7 +23,8 @@ namespace Etl.Load.Service
         public async Task Load(string content)
         {
             var car = JsonConvert.DeserializeObject<CarEntity>(content);
-            await _context.AddAsync<CarEntity>(car);
+            _context.Add<CarEntity>(car);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Recive(string content)
