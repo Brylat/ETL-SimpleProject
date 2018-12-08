@@ -88,8 +88,8 @@ namespace Etl.Transform.Service
                 jsonObject.Add(new JProperty(pair.Key, $"//li[contains(@class, \'offer-params__item\')]//span[@class=\'offer-params__label\' and contains(text(), \'{pair.Value}\')]/following-sibling::div"));
             }
 
-            jsonObject.Add("Equipment", "//div[contains(@class, \'offer-features__row\')]//li[@class=\'offer-features__item\']");
-            jsonObject.Add("Description", "//div[contains(@class, \'offer-description\')]");
+            jsonObject.Add(new JProperty("Equipment", "//div[contains(@class, \'offer-features__row\')]//li[@class=\'offer-features__item\']"));
+            jsonObject.Add(new JProperty("Description", "//div[contains(@class, \'offer-description\')]"));
 
             return jsonObject.ToString();
         }

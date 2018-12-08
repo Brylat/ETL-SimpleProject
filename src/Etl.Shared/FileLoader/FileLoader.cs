@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Etl.Shared.FileLoader
 {
@@ -11,6 +12,14 @@ namespace Etl.Shared.FileLoader
             foreach(var file in fileList) {
                 yield return File.ReadAllText(Path.Combine(catalogPath, file));
             }
+        }
+
+        public async Task CleanFOlders(List<string> paths)
+        {
+            foreach(var path in paths){
+                Directory.Delete(path, true);
+            }
+            await Task.CompletedTask;
         }
     }
 }
