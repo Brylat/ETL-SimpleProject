@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Etl.Extract.Service;
 using Etl.Logger;
 using Etl.Shared;
+using Etl.Transform.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Etl.Api.Controllers {
@@ -13,16 +14,21 @@ namespace Etl.Api.Controllers {
         public class ValuesController : ControllerBase {
             private readonly ICustomLogger _logger;
             private readonly IExtractor _extractor;
-            public ValuesController (ICustomLogger logger, IExtractor extractor) {
+
+            private readonly ITransformer _transformer;
+            public ValuesController (ICustomLogger logger, IExtractor extractor, ITransformer transformer) {
                 _logger = logger;
                 _extractor = extractor;
+                _transformer = transformer;
             }
 
             // GET api/values
             [HttpGet]
             public ActionResult<IEnumerable<string>> Get () {
                 _logger.Log ("Witaj");
-                _extractor.Extract (WorkMode.Partial);
+               // _extractor.Extract (WorkMode.Partial);
+                _transformer.LoadFromFiles();
+
                 return new string[] { "value1", "value2" };
             }
 
