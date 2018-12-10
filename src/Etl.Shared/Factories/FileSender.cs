@@ -11,6 +11,7 @@ namespace Etl.Shared.Factories {
             Directory.CreateDirectory (_path);
         }
         public async Task Send (string content) {
+            if (string.IsNullOrEmpty(content)) return;
             var filePath = Path.Combine (_path, string.Format (@"{0}.tmp", Guid.NewGuid ()));
             File.WriteAllText (filePath, content);
             await Task.CompletedTask;

@@ -59,12 +59,12 @@ namespace Etl.Transform.Service
         }
 
         public async Task Recive (string content) {
-            InitSender(WorkMode.Continuous);
+            await InitSender(WorkMode.Continuous);
             await Transform (content);
         }
 
         public async Task LoadFromFiles() {
-            InitSender(WorkMode.Partial);
+            await InitSender(WorkMode.Partial);
             //catalog name from config
             foreach(var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"))){
                 await Transform(fileContent);

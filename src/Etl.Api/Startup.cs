@@ -44,7 +44,7 @@ namespace Etl.Api {
             services.AddScoped<IFileLoader, FileLoader> ();
             services.AddScoped<ICarModelExtractor, CarModelExtractor> ();
             services.AddDbContext<Context> (options =>
-                options.UseNpgsql ("Server=localhost;Database=Etl;UserId=postgres;Password=postgres"));
+                options.UseNpgsql (Configuration["ConnectionString"]));
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_1);
         }
 

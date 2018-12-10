@@ -45,10 +45,17 @@ namespace Etl.Extract.Service {
         private async Task<string> GetArticleContent (string url) {
             var config = Configuration.Default.WithDefaultLoader ()
                 .WithCss ();
-            // .WithJavaScript();
-            var document = await BrowsingContext.New (config).OpenAsync (url);
+            try
+            {
+                var document = await BrowsingContext.New (config).OpenAsync (url);
             return document.All
                 .Where (x => x.ClassName == "offer-content__main-column").Single ().OuterHtml;
+            } catch
+            {
+                _logger.Log($"Error while get content from url: {url}");
+                return null;
+            }
+            
         }
 
         private async Task<List<string>> GetArticlesUrlFromPage (string url) {

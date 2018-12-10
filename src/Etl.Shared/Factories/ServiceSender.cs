@@ -14,6 +14,7 @@ namespace Etl.Shared.Factories
         }
         public async Task Send(string content)
         {
+            if (string.IsNullOrEmpty(content)) return;
             await _service.Recive(content);
         }
     }
