@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etl.Extract.Service;
+using Etl.Load.Service;
 using Etl.Logger;
 using Etl.Shared;
 using Etl.Transform.Service;
@@ -16,10 +17,12 @@ namespace Etl.Api.Controllers {
             private readonly IExtractor _extractor;
 
             private readonly ITransformer _transformer;
-            public ValuesController (ICustomLogger logger, IExtractor extractor, ITransformer transformer) {
+            private readonly ILoader _loader;
+            public ValuesController (ICustomLogger logger, IExtractor extractor, ITransformer transformer, ILoader loader) {
                 _logger = logger;
                 _extractor = extractor;
                 _transformer = transformer;
+                _loader = loader;
             }
 
             // GET api/values
@@ -28,7 +31,7 @@ namespace Etl.Api.Controllers {
                 _logger.Log ("Witaj");
                 await _extractor.Extract (WorkMode.Continuous);
                 //_transformer.LoadFromFiles();
-
+                //await _loader.ClearAllData();
                 return new string[] { "value1", "value2" };
             }
 

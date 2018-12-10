@@ -5,6 +5,9 @@ using Etl.Load.Service.BaseContext;
 using Etl.Shared.Entity;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Etl.Load.Service
 {
@@ -20,13 +23,20 @@ namespace Etl.Load.Service
             _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
+
+        public async Task<List<CarEntity>> GetAllCars() {
+            return await Task.FromResult(_context.Cars.ToList());
+        }
         public async Task Load(string content)
         {
             var car = JsonConvert.DeserializeObject<CarEntity>(content);
             _context.Add<CarEntity>(car);
             await _context.SaveChangesAsync();
         }
-
+        public async Task ClearAllData() {
+            _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Cars""");
+            await Task.CompletedTask;
+        }
         public async Task Recive(string content)
         {
             await Load(content);
