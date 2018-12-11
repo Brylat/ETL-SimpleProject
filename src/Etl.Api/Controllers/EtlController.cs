@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using System.Threading.Tasks;
+using CsvHelper;
 using Etl.Extract.Service;
 using Etl.Load.Service;
 using Etl.Logger;
@@ -55,6 +58,26 @@ namespace Etl.Api.Controllers
         public async Task<IActionResult> GetAllCars () {
             var cars = await _loader.GetAllCars();
             return Ok(cars);
+        }
+
+        [HttpGet ("downloadAsCsv")]
+        public async Task<IActionResult> DownloadAsCsv () {
+            var fileName = Guid.NewGuid().ToString();
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, fileName);
+            using (StreamWriter writer = new StreamWriter (Path.Combine(path), false)) {
+                var records = await _loader.GetAllCars();
+                var csv = new CsvWriter (writer);
+                csv.WriteRecords (records);
+            }
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            System.IO.File.Delete(path);
+            memory.Position = 0;
+            var downloadName = DateTime.Now.ToString()+".csv";
+            return File(memory, "text/csv", downloadName);
         }
     }
 }
