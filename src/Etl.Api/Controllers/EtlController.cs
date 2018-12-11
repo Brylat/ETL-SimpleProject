@@ -12,12 +12,10 @@ using Etl.Transform.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Etl.Api.Controllers
-{
+namespace Etl.Api.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
-    public class EtlController : ControllerBase
-    {
+    public class EtlController : ControllerBase {
         private readonly ICustomLogger _logger;
         private readonly IExtractor _extractor;
         private readonly ITransformer _transformer;
@@ -34,71 +32,73 @@ namespace Etl.Api.Controllers
             _fileLoader = fileLoader;
         }
 
-        [HttpGet ("fullEtl")]
-        public async Task<IActionResult> fullEtl ([FromBody]string url) {
-            await _extractor.Extract(WorkMode.Continuous, url);
-            return Ok();
+        [HttpPost ("fullEtl")]
+        public async Task<IActionResult> fullEtl ([FromBody] EtlCommand command) {
+            await _extractor.Extract (WorkMode.Continuous, command.Url);
+            return Ok ();
         }
 
-        [HttpGet ("onlyExtract")]
-        public async Task<IActionResult> OnlyExtract ([FromBody]string url) {
-            await _extractor.Extract(WorkMode.Partial, url);
-            return Ok();
+        [HttpPost ("onlyExtract")]
+        public async Task<IActionResult> OnlyExtract ([FromBody] EtlCommand command) {
+            await _extractor.Extract (WorkMode.Partial, command.Url);
+            return Ok ();
         }
 
         [HttpGet ("onlyTransform")]
         public async Task<IActionResult> OnlyTransform () {
-            await _transformer.LoadFromFiles();
-            return Ok();
+            await _transformer.LoadFromFiles ();
+            return Ok ();
         }
 
         [HttpGet ("onlyLoad")]
         public async Task<IActionResult> OnlyLoad () {
-            await _loader.LoadFromFiles();
-            return Ok();
+            await _loader.LoadFromFiles ();
+            return Ok ();
         }
 
         [HttpGet ("getAllCars")]
         public async Task<IActionResult> GetAllCars () {
-            var cars = await _loader.GetAllCars();
-            return Ok(cars);
+            var cars = await _loader.GetAllCars ();
+            return Ok (cars);
         }
 
         [HttpGet ("downloadAsCsv")]
         public async Task<IActionResult> DownloadAsCsv () {
-            var fileName = Guid.NewGuid().ToString();
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, fileName);
-            using (StreamWriter writer = new StreamWriter (Path.Combine(path), false)) {
-                var records = _loader.GetAllCars();
+            var fileName = Guid.NewGuid ().ToString ();
+            var path = Path.Combine (_hostingEnvironment.ContentRootPath, fileName);
+            using (StreamWriter writer = new StreamWriter (Path.Combine (path), false)) {
+                var records = _loader.GetAllCars ();
                 var csv = new CsvWriter (writer);
                 csv.WriteRecords (await records);
             }
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
-            {
-                await stream.CopyToAsync(memory);
+            var memory = new MemoryStream ();
+            using (var stream = new FileStream (path, FileMode.Open)) {
+                await stream.CopyToAsync (memory);
             }
-            System.IO.File.Delete(path);
+            System.IO.File.Delete (path);
             memory.Position = 0;
-            var downloadName = DateTime.Now.ToString()+".csv";
-            return File(memory, "text/csv", downloadName);
+            var downloadName = DateTime.Now.ToString () + ".csv";
+            return File (memory, "text/csv", downloadName);
         }
 
         [HttpGet ("cleanTmpFolders")]
         public async Task<IActionResult> CleanTmpFolders () {
-            var pathList = new List<string>()
-            {
-                Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"),
-                Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform")
+            var pathList = new List<string> () {
+                Path.Combine (_hostingEnvironment.ContentRootPath, "AfterExtract"),
+                Path.Combine (_hostingEnvironment.ContentRootPath, "AfterTransform")
             };
-            await _fileLoader.CleanFolders(pathList);
-            return Ok();
+            await _fileLoader.CleanFolders (pathList);
+            return Ok ();
         }
 
         [HttpGet ("cleanDatabase")]
         public async Task<IActionResult> CleanDatabase () {
-            await _loader.ClearAllData();
-            return Ok();
+            await _loader.ClearAllData ();
+            return Ok ();
         }
+
+    }
+    public class EtlCommand {
+        public string Url { get; set; }
     }
 }
