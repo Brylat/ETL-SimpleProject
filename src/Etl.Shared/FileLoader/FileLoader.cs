@@ -14,7 +14,7 @@ namespace Etl.Shared.FileLoader
             }
         }
 
-        public async Task CleanFOlders(List<string> paths)
+        public async Task CleanFolders(List<string> paths)
         {
             foreach(var path in paths){
                 Directory.Delete(path, true);

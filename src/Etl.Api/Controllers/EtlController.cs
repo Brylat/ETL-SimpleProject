@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using CsvHelper;
@@ -6,6 +7,7 @@ using Etl.Extract.Service;
 using Etl.Load.Service;
 using Etl.Logger;
 using Etl.Shared;
+using Etl.Shared.FileLoader;
 using Etl.Transform.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +23,15 @@ namespace Etl.Api.Controllers
         private readonly ITransformer _transformer;
         private readonly ILoader _loader;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IFileLoader _fileLoader;
 
-        public EtlController (ICustomLogger logger, IExtractor extractor, ITransformer transformer, ILoader loader, IHostingEnvironment hostingEnvironment) {
+        public EtlController (ICustomLogger logger, IExtractor extractor, ITransformer transformer, ILoader loader, IHostingEnvironment hostingEnvironment, IFileLoader fileLoader) {
             _logger = logger;
             _extractor = extractor;
             _transformer = transformer;
             _loader = loader;
             _hostingEnvironment = hostingEnvironment;
+            _fileLoader = fileLoader;
         }
 
         [HttpGet ("fullEtl")]
@@ -65,9 +69,9 @@ namespace Etl.Api.Controllers
             var fileName = Guid.NewGuid().ToString();
             var path = Path.Combine(_hostingEnvironment.ContentRootPath, fileName);
             using (StreamWriter writer = new StreamWriter (Path.Combine(path), false)) {
-                var records = await _loader.GetAllCars();
+                var records = _loader.GetAllCars();
                 var csv = new CsvWriter (writer);
-                csv.WriteRecords (records);
+                csv.WriteRecords (await records);
             }
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
@@ -78,6 +82,23 @@ namespace Etl.Api.Controllers
             memory.Position = 0;
             var downloadName = DateTime.Now.ToString()+".csv";
             return File(memory, "text/csv", downloadName);
+        }
+
+        [HttpGet ("cleanTmpFolders")]
+        public async Task<IActionResult> CleanTmpFolders () {
+            var pathList = new List<string>()
+            {
+                Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"),
+                Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform")
+            };
+            await _fileLoader.CleanFolders(pathList);
+            return Ok();
+        }
+
+        [HttpGet ("cleanDatabase")]
+        public async Task<IActionResult> CleanDatabase () {
+            await _loader.ClearAllData();
+            return Ok();
         }
     }
 }
