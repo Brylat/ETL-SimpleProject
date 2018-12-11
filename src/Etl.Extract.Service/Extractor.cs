@@ -79,7 +79,7 @@ namespace Etl.Extract.Service {
                 .Single ()
                 .Children.Where (x => x.ClassName == "row").ElementAt (1);
 
-            if (!paggerRow.HasChildNodes) {
+            if (paggerRow.FirstElementChild == null) {
                 return await Task.FromResult<int> (1);
             } else {
                 var numberOfPages = paggerRow.Children.Where (x => x.ClassName == "om-pager rel").Single ()
