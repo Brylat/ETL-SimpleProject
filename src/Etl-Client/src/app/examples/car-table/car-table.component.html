@@ -1,0 +1,150 @@
+<div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="brand" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> brand </th>
+            <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="model" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> model </th>
+            <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="offer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> offer </th>
+            <td mat-cell *matCellDef="let element"> {{element.offer}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> category </th>
+            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="version">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> version </th>
+            <td mat-cell *matCellDef="let element"> {{element.version}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="productionYear">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> productionYear </th>
+            <td mat-cell *matCellDef="let element"> {{element.productionYear}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mileage">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> mileage </th>
+            <td mat-cell *matCellDef="let element"> {{element.mileage}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="capacity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> capacity </th>
+            <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fuel">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> fuel </th>
+            <td mat-cell *matCellDef="let element"> {{element.fuel}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="horsePower">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> horsePower </th>
+            <td mat-cell *matCellDef="let element"> {{element.horsePower}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="transmission">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> transmission </th>
+            <td mat-cell *matCellDef="let element"> {{element.transmission}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="drivingGear">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> drivingGear </th>
+            <td mat-cell *matCellDef="let element"> {{element.drivingGear}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> type </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="doorsNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> doorsNumber </th>
+            <td mat-cell *matCellDef="let element"> {{element.doorsNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="seatsNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> seatsNumber </th>
+            <td mat-cell *matCellDef="let element"> {{element.seatsNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colour">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> colour </th>
+            <td mat-cell *matCellDef="let element"> {{element.colour}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isMetallic">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> isMetallic </th>
+            <td mat-cell *matCellDef="let element"> {{element.isMetallic}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="condition">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> condition </th>
+            <td mat-cell *matCellDef="let element"> {{element.condition}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstRegistration">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> firstRegistration </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstRegistration}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isRegisteredInPoland">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> isRegisteredInPoland </th>
+            <td mat-cell *matCellDef="let element"> {{element.isRegisteredInPoland}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="countryOfOrigin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> countryOfOrigin </th>
+            <td mat-cell *matCellDef="let element"> {{element.countryOfOrigin}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isFirstOwner">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> isFirstOwner </th>
+            <td mat-cell *matCellDef="let element"> {{element.isFirstOwner}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="noAccidents">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> noAccidents </th>
+            <td mat-cell *matCellDef="let element"> {{element.noAccidents}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="serviceHistory">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> serviceHistory </th>
+            <td mat-cell *matCellDef="let element"> {{element.serviceHistory}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> vin </th>
+            <td mat-cell *matCellDef="let element"> {{element.vin}} </td>
+        </ng-container>
+        'particleFilter',
+        <ng-container matColumnDef="particleFilter">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> particleFilter </th>
+            <td mat-cell *matCellDef="let element"> {{element.particleFilter}} </td>
+        </ng-container>
+        <!-- Weight Column 
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

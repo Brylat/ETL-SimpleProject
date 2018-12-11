@@ -3,32 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Stock } from '../../stock-market/stock-market.model';
-
-export interface Car {
-  modelName: string;
-  modelValue: string;
-}
-
-export interface CarContainer {
-  cars: Car[];
-}
-
-export interface City {
-  id: string;
-  name: string;
-}
-
-export interface IUserResponse {
-  results: City[];
-}
-
-export class City {
-  constructor(public id: string, public name: string) {}
-}
-
-export class EtlCommand {
-  constructor(public url: string) {}
-}
+import {
+  CarContainer,
+  EtlCommand,
+  Car,
+  City
+} from '../../../shared/interfaces';
 
 const URL_API = 'http://localhost:666/api';
 

@@ -21,7 +21,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule, MatAutocompleteModule, MatFormFieldModule } from '@angular/material/';
+import {
+  MatSliderModule,
+  MatAutocompleteModule,
+  MatFormFieldModule,
+  MatTableModule,
+  MatSortModule
+} from '@angular/material/';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 
@@ -93,6 +99,7 @@ library.add(
 
 import { BigInputComponent } from './big-input/big-input.component';
 import { BigInputActionComponent } from './big-input/big-input-action.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   imports: [
@@ -120,6 +127,8 @@ import { BigInputActionComponent } from './big-input/big-input-action.component'
     MatDividerModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatSortModule,
 
     FontAwesomeModule
   ],
@@ -153,6 +162,8 @@ import { BigInputActionComponent } from './big-input/big-input-action.component'
     MatNativeDateModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatTableModule,
+    MatSortModule,
 
     FontAwesomeModule,
 

@@ -12,6 +12,7 @@ import { CrudComponent } from './crud/components/crud.component';
 import { FormComponent } from './form/components/form.component';
 import { NotificationsComponent } from './notifications/components/notifications.component';
 import { CarSelectComponent } from './car-select/components/car-select.component';
+import { CarTableComponent } from './car-table/car-table.component';
 
 const routes: Routes = [
   {
@@ -34,9 +35,9 @@ const routes: Routes = [
         data: { title: 'etl-client.examples.menu.carselect' }
       },
       {
-        path: 'stock-market',
-        component: StockMarketContainerComponent,
-        data: { title: 'etl-client.examples.menu.stocks' }
+        path: 'cartable',
+        component: CarTableComponent,
+        data: { title: 'etl-client.examples.menu.cartablee' }
       },
       {
         path: 'theming',

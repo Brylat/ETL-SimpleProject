@@ -22,22 +22,12 @@ import {
 } from './car-select.data';
 import { debounceTime, switchMap, map, startWith } from 'rxjs/operators';
 import * as signalR from '@aspnet/signalr';
-
-export interface Car {
-  modelName: string;
-  modelValue: string;
-}
-export interface Model {
-  value: string;
-  viewValue: string;
-}
-export interface City {
-  id: string;
-  name: string;
-}
-export interface IUserResponse {
-  results: City[];
-}
+import {
+  Car,
+  City,
+  IUserResponse,
+  OtomotoUrl
+} from '../../../shared/interfaces';
 
 @Component({
   selector: 'etl-client-car-select',
@@ -61,11 +51,8 @@ export class CarSelectComponent implements OnInit {
   priceFrom: number;
   priceTo: number;
   disableSelect: boolean = true;
-
   names: any;
-
   cities: City[] = [];
-
   filteredUsers: Observable<IUserResponse>;
 
   form = this.fb.group({
@@ -140,7 +127,6 @@ export class CarSelectComponent implements OnInit {
   }
 
   save() {
-    // var urlAddress = "https://www.otomoto.pl/osobowe/";
     var urlAddress: OtomotoUrl = new OtomotoUrl();
     urlAddress.value = 'https://www.otomoto.pl/osobowe/';
 
@@ -163,10 +149,9 @@ export class CarSelectComponent implements OnInit {
   public githubAutoComplete$: Observable<City> = null;
 
   lookup(value: string): Observable<City[]> {
-    return this._carSelectService.retreiveSuggestedCities(value).pipe(
-      // map the item property of the github results as our return object
-      map(results => results)
-    );
+    return this._carSelectService
+      .retreiveSuggestedCities(value)
+      .pipe(map(results => results));
   }
 
   generateUrl() {
@@ -261,7 +246,4 @@ export class CarSelectComponent implements OnInit {
   startFullEtl(url: string) {
     this._carSelectService.startFullEtl(url).subscribe();
   }
-}
-export class OtomotoUrl {
-  value: string;
 }

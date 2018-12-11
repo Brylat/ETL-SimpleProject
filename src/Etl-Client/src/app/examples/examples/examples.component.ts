@@ -23,12 +23,16 @@ export class ExamplesComponent implements OnInit {
   examples = [
     { link: 'todos', label: 'etl-client.examples.menu.todos' },
     { link: 'carselect', label: 'etl-client.examples.menu.carselect' },
-    { link: 'stock-market', label: 'etl-client.examples.menu.stocks' },
+    { link: 'cartable', label: 'etl-client.examples.menu.cartable' },
     { link: 'theming', label: 'etl-client.examples.menu.theming' },
     { link: 'crud', label: 'etl-client.examples.menu.crud' },
     { link: 'form', label: 'etl-client.examples.menu.form' },
     { link: 'notifications', label: 'etl-client.examples.menu.notifications' },
-    { link: 'authenticated', label: 'etl-client.examples.menu.auth', auth: true }
+    {
+      link: 'authenticated',
+      label: 'etl-client.examples.menu.auth',
+      auth: true
+    }
   ];
 
   constructor(private store: Store<State>) {}
