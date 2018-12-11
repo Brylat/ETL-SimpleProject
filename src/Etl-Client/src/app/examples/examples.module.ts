@@ -27,6 +27,7 @@ import { NotificationsComponent } from './notifications/components/notifications
 import { ExamplesEffects } from './examples.effects';
 import { CarSelectComponent } from './car-select/components/car-select.component';
 import { CarSelectService } from './car-select/components/car-select.service';
+import { LogComponent } from './car-select/components/log.component';
 
 @NgModule({
   imports: [
@@ -60,11 +61,9 @@ import { CarSelectService } from './car-select/components/car-select.service';
     FormComponent,
     NotificationsComponent,
     CarSelectComponent,
+    LogComponent
   ],
-  providers: [
-    StockMarketService,
-    CarSelectService
-  ]
+  providers: [StockMarketService, CarSelectService]
 })
 export class ExamplesModule {
   constructor() {}

@@ -21,6 +21,7 @@ import {
   distList
 } from './car-select.data';
 import { debounceTime, switchMap, map, startWith } from 'rxjs/operators';
+import * as signalR from '@aspnet/signalr';
 
 export interface Car {
   modelName: string;
