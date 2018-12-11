@@ -5,6 +5,6 @@ namespace Etl.Extract.Service
 {
     public interface IExtractor
     {
-         Task Extract(WorkMode workMode);
+         Task Extract(WorkMode workMode, string basicUrl);
     }
 }

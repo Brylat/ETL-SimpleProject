@@ -26,9 +26,8 @@ namespace Etl.Extract.Service {
             _transformerService = transformerService;
         }
 
-        public async Task Extract (WorkMode workMode) {
+        public async Task Extract (WorkMode workMode, string basicUrl) {
             await InitSender(workMode);
-            var basicUrl = "https://www.otomoto.pl/osobowe/aixam/";
             var numberOfPage = await GetNumberOfPages (basicUrl);
             _logger.Log ($"Number of pages: {numberOfPage}");
             var articlesUrl = new List<string> ();
@@ -40,6 +39,7 @@ namespace Etl.Extract.Service {
             foreach (var url in articlesUrl) {
                 await _sender.Send (await GetArticleContent (url));
             }
+            await Task.CompletedTask;
         }
         
         private async Task<string> GetArticleContent (string url) {
