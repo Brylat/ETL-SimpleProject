@@ -90,6 +90,7 @@ namespace Etl.Transform.Service
 
             jsonObject.Add(new JProperty("Equipment", "//div[contains(@class, \'offer-features__row\')]//li[@class=\'offer-features__item\']"));
             jsonObject.Add(new JProperty("Description", "//div[contains(@class, \'offer-description\')]"));
+            jsonObject.Add(new JProperty("Price", "//span[contains(@class, \'offer-price__number\')]"));
 
             return jsonObject.ToString();
         }
