@@ -49,7 +49,7 @@ namespace Etl.Extract.Service {
             {
                 var document = await BrowsingContext.New (config).OpenAsync (url);
             return document.All
-                .Where (x => x.ClassName == "offer-content__main-column").Single ().OuterHtml;
+                .Where (x => x.Id == "siteWrap").Single ().OuterHtml;
             } catch
             {
                 _logger.Log($"Error while get content from url: {url}");

@@ -37,5 +37,6 @@ namespace Etl.Shared.Entity {
         [JsonConverter (typeof (SingleOrArrayConverter<string>))]
         public List<string> Equipment { get; set; }
         public string Description { get; set; }
+        public string Price { get; set; }
     }
 }
