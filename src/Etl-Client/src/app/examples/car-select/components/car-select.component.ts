@@ -54,6 +54,7 @@ export class CarSelectComponent implements OnInit {
   names: any;
   cities: City[] = [];
   filteredUsers: Observable<IUserResponse>;
+  url: string = '';
 
   form = this.fb.group({
     autosave: false,
@@ -141,7 +142,8 @@ export class CarSelectComponent implements OnInit {
     this.generateQueryDisc(urlAddress);
 
     console.log(urlAddress.value);
-    this.startFullEtl(urlAddress.value);
+    this.url = urlAddress.value;
+    //this.startFullEtl(urlAddress.value);
 
     this.generateUrl();
   }

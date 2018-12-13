@@ -5,10 +5,15 @@
   "etl-client.examples.form.error3": "should be longer than",
   "etl-client.examples.form.error4": "should be smaller than",
   "etl-client.examples.form.reset": "Reset",
-  "etl-client.examples.form.save": "Save",
+  "etl-client.examples.form.save": "Generate url",
   "etl-client.examples.form.send": "Send",
-  "etl-client.examples.form.subtitle1": "The form",
+  "etl-client.examples.form.subtitle1": "Select car",
   "etl-client.examples.menu.carselect": "Select car",
   "etl-client.examples.carselect.form.title": "Select car or paste url below",
-  "etl-client.examples.menu.cartable": "View data table"
+  "etl-client.examples.menu.cartable": "View data table",
+
+  "etl-client.examples.form.etlStart": "ETL",
+  "etl-client.examples.form.eStart": "E",
+  "etl-client.examples.form.tStart": "T",
+  "etl-client.examples.form.lStart": "L"
 }
