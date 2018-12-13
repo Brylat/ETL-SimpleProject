@@ -8,6 +8,9 @@ namespace Etl.Shared.FileLoader
     {
         public IEnumerable<string> GetNextFileContent(string catalogPath)
         {
+            if(!Directory.Exists(catalogPath)){
+                yield break;
+            }
             var fileList = Directory.EnumerateFiles(catalogPath);
             foreach(var file in fileList) {
                 yield return File.ReadAllText(Path.Combine(catalogPath, file));
