@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   languages = ['en', 'de', 'sk', 'fr', 'es', 'pt-br'];
   navigation = [
     { link: 'about', label: 'etl-client.menu.about' },
-    { link: 'features', label: 'etl-client.menu.features' },
     { link: 'examples', label: 'etl-client.menu.examples' }
   ];
   navigationSideMenu = [

@@ -5,10 +5,7 @@ import { AuthGuardService } from '@app/core';
 
 import { ExamplesComponent } from './examples/examples.component';
 import { ParentComponent } from './theming/parent/parent.component';
-import { AuthenticatedComponent } from './authenticated/authenticated.component';
 import { TodosContainerComponent } from './todos/components/todos-container.component';
-import { StockMarketContainerComponent } from './stock-market/components/stock-market-container.component';
-import { CrudComponent } from './crud/components/crud.component';
 import { FormComponent } from './form/components/form.component';
 import { NotificationsComponent } from './notifications/components/notifications.component';
 import { CarSelectComponent } from './car-select/components/car-select.component';
@@ -21,13 +18,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'todos',
+        redirectTo: 'carselect',
         pathMatch: 'full'
-      },
-      {
-        path: 'todos',
-        component: TodosContainerComponent,
-        data: { title: 'etl-client.examples.menu.todos' }
       },
       {
         path: 'carselect',
@@ -40,19 +32,9 @@ const routes: Routes = [
         data: { title: 'etl-client.examples.menu.cartablee' }
       },
       {
-        path: 'theming',
-        component: ParentComponent,
-        data: { title: 'etl-client.examples.menu.theming' }
-      },
-      {
         path: 'crud',
         redirectTo: 'crud/',
         pathMatch: 'full'
-      },
-      {
-        path: 'crud/:id',
-        component: CrudComponent,
-        data: { title: 'etl-client.examples.menu.crud' }
       },
       {
         path: 'form',
@@ -63,12 +45,6 @@ const routes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         data: { title: 'etl-client.examples.menu.notifications' }
-      },
-      {
-        path: 'authenticated',
-        component: AuthenticatedComponent,
-        canActivate: [AuthGuardService],
-        data: { title: 'etl-client.examples.menu.auth' }
       }
     ]
   }

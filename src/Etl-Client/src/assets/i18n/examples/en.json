@@ -109,5 +109,9 @@
   "etl-client.examples.todos.toggle.notification": "Toggled {{name}} to",
   "etl-client.examples.todos.tooltip.add": "Add new todo",
   "etl-client.examples.todos.tooltip.remove": "Remove done todos",
-  "etl-client.examples.todos.undo": "Undo"
+  "etl-client.examples.todos.undo": "Undo",
+
+  "etl-client.examples.menu.carselect": "Select car",
+  "etl-client.examples.carselect.form.title": "Select car or paste url below",
+  "etl-client.examples.menu.cartable": "View data table"
 }

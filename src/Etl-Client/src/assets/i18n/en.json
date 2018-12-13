@@ -32,7 +32,7 @@
   "etl-client.footer.changelog": "Show changelog",
   "etl-client.header.github": "Project Github Repository",
   "etl-client.menu.about": "About",
-  "etl-client.menu.examples": "Examples",
+  "etl-client.menu.examples": "ETL panel",
   "etl-client.menu.features": "Features",
   "etl-client.menu.login": "Sign in",
   "etl-client.menu.logout": "Logout",
@@ -58,6 +58,6 @@
   "etl-client.settings.themes.sticky-header": "Sticky header",
   "etl-client.settings.themes.title": "Themes",
   "etl-client.settings.title": "Settings",
-  "etl-client.title.long": "Angular NgRx Material Starter",
+  "etl-client.title.long": "CarETL",
   "etl-client.title.short": "Angular Starter"
 }
