@@ -121,24 +121,24 @@
             </button>
           </div>
           <mat-form-field style="width: 100%;">
-            <input [(ngModel)]="url" [ngModelOptions]="{standalone: true}" matInput placeholder="URL" value="">
+            <input [(ngModel)]="url" [ngModelOptions]="{standalone: true}" matInput placeholder="URL" value="" [ngClass]="routeAnimationsElements">
           </mat-form-field>
 
           <div class="row buttons d-flex justify-content-between pad">
-            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startEtl()">
+            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startFullEtl(url)">
               {{ 'etl-client.examples.form.etlStart' | translate }}
             </button>
           </div>
 
           <div class="row buttons d-flex justify-content-between pad">
-            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startE()()">
+            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startExtract(url)">
               {{ 'etl-client.examples.form.eStart' | translate }}
             </button>
 
-            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startT()">
+            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startTransform()">
               {{ 'etl-client.examples.form.tStart' | translate }}
             </button>
-            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startL()">
+            <button type="button" mat-raised-button color="accent" [disabled]="url==''" [ngClass]="routeAnimationsElements" (click)="startLoad()">
               {{ 'etl-client.examples.form.lStart' | translate }}
             </button>
           </div>
@@ -147,5 +147,7 @@
       </div>
     </div>
   </form>
-
 </div>
+<ng-container *ngIf="isLoading;">
+  <div id="loading-bar"></div>
+</ng-container>

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
 
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '@app/core';
 import { CarSelectService } from './car-select.service';
@@ -55,6 +60,7 @@ export class CarSelectComponent implements OnInit {
   cities: City[] = [];
   filteredUsers: Observable<IUserResponse>;
   url: string = '';
+  isLoading: boolean = false;
 
   form = this.fb.group({
     autosave: false,
@@ -92,7 +98,8 @@ export class CarSelectComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<State>,
     private translate: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -246,6 +253,35 @@ export class CarSelectComponent implements OnInit {
   }
 
   startFullEtl(url: string) {
-    this._carSelectService.startFullEtl(url).subscribe();
+    this.isLoading = true;
+    this._carSelectService.startFullEtl(url).subscribe(d => {
+      console.log(d);
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    });
+  }
+
+  startExtract(url: string) {
+    this.isLoading = true;
+    this._carSelectService.startExtract(url).subscribe(d => {
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    });
+  }
+
+  startTransform() {
+    this.isLoading = true;
+    this._carSelectService.startTransform().subscribe(d => {
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    });
+  }
+
+  startLoad() {
+    this.isLoading = true;
+    this._carSelectService.startLoad().subscribe(d => {
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    });
   }
 }

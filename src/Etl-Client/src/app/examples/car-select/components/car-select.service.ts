@@ -39,4 +39,19 @@ export class CarSelectService {
   startFullEtl(url: string) {
     return this.httpClient.post(URL_API + '/etl/fullEtl', new EtlCommand(url));
   }
+
+  startExtract(url: string) {
+    return this.httpClient.post(
+      URL_API + '/etl/onlyExtract',
+      new EtlCommand(url)
+    );
+  }
+
+  startTransform() {
+    return this.httpClient.get(URL_API + '/etl/onlyTransform');
+  }
+
+  startLoad() {
+    return this.httpClient.get(URL_API + '/etl/onlyLoad');
+  }
 }

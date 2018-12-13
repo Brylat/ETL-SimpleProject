@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
@@ -43,12 +43,16 @@ export class CarTableComponent implements OnInit {
   ];
   dataSource;
 
-  constructor(private _carDataService: CarDataService) {}
+  constructor(
+    private _carDataService: CarDataService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this._carDataService.retreiveCarAdsData().subscribe(d => {
       this.dataSource = new MatTableDataSource(d);
       this.dataSource.sort = this.sort;
+      this.changeDetector.detectChanges();
     });
   }
 }
