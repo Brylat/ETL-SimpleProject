@@ -10,6 +10,7 @@ import { FormComponent } from './form/components/form.component';
 import { NotificationsComponent } from './notifications/components/notifications.component';
 import { CarSelectComponent } from './car-select/components/car-select.component';
 import { CarTableComponent } from './car-table/car-table.component';
+import { CarDataManagementComponent } from './car-data-management/car-data-management.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
         path: 'cartable',
         component: CarTableComponent,
         data: { title: 'etl-client.examples.menu.cartablee' }
+      },
+      {
+        path: 'cardatamanagement',
+        component: CarDataManagementComponent,
+        data: { title: 'etl-client.examples.menu.cardatamanagement' }
       },
       {
         path: 'crud',

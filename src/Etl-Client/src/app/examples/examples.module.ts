@@ -20,6 +20,8 @@ import { CarSelectService } from './car-select/components/car-select.service';
 import { LogComponent } from './car-select/components/log.component';
 import { CarTableComponent } from './car-table/car-table.component';
 import { CarDataService } from './car-table/car-data.service';
+import { CarDataManagementComponent } from './car-data-management/car-data-management.component';
+import { CarDataManagementService } from './car-data-management/car-data-management.service';
 
 @NgModule({
   imports: [
@@ -42,9 +44,10 @@ import { CarDataService } from './car-table/car-data.service';
     NotificationsComponent,
     CarSelectComponent,
     LogComponent,
-    CarTableComponent
+    CarTableComponent,
+    CarDataManagementComponent
   ],
-  providers: [CarSelectService, CarDataService]
+  providers: [CarSelectService, CarDataService, CarDataManagementService]
 })
 export class ExamplesModule {
   constructor() {}

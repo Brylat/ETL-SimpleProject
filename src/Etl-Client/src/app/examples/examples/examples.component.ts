@@ -22,7 +22,11 @@ export class ExamplesComponent implements OnInit {
 
   examples = [
     { link: 'carselect', label: 'etl-client.examples.menu.carselect' },
-    { link: 'cartable', label: 'etl-client.examples.menu.cartable' }
+    { link: 'cartable', label: 'etl-client.examples.menu.cartable' },
+    {
+      link: 'cardatamanagement',
+      label: 'etl-client.examples.menu.cardatamanagement'
+    }
   ];
 
   constructor(private store: Store<State>) {}
