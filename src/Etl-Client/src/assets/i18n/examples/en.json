@@ -15,5 +15,8 @@
   "etl-client.examples.form.etlStart": "ETL",
   "etl-client.examples.form.eStart": "E",
   "etl-client.examples.form.tStart": "T",
-  "etl-client.examples.form.lStart": "L"
+  "etl-client.examples.form.lStart": "L",
+  "etl-client.examples.form.cleanTemp": "Clean temp folder",
+  "etl-client.examples.form.cleanDatabase": "Clean database",
+  "etl-client.examples.menu.cardatamanagement": "Data management"
 }
