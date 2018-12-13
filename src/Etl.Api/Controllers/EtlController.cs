@@ -97,6 +97,11 @@ namespace Etl.Api.Controllers {
             return Ok ();
         }
 
+        [HttpGet ("tmpEtl")]
+        public async Task<IActionResult> tmpEtl () {
+            await _extractor.Extract (WorkMode.Continuous, "https://www.otomoto.pl/osobowe/lexus/lx/");
+            return Ok ();
+        }
     }
     public class EtlCommand {
         public string Url { get; set; }
