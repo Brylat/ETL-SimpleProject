@@ -96,7 +96,6 @@ namespace Etl.Api.Controllers {
             await _loader.ClearAllData ();
             return Ok ();
         }
-
     }
     public class EtlCommand {
         public string Url { get; set; }
