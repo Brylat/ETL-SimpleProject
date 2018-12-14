@@ -15,4 +15,13 @@ export class CarDataService {
       .get(URL_API + '/etl/getAllCars/')
       .pipe(map((response: Response) => response.json())).source;
   }
+
+  public async downloadSingleCsv(): Promise<Blob> {
+    const file = await this.httpClient
+      .get<Blob>(URL_API + '/etl/downloadAsCsv/', {
+        responseType: 'blob' as 'json'
+      })
+      .toPromise();
+    return file;
+  }
 }

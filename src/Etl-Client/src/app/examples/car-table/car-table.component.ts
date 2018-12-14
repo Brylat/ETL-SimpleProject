@@ -5,6 +5,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { ViewChild } from '@angular/core';
 import { CarDataService } from './car-data.service';
 import { CarAdData } from '../../shared/interfaces';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'etl-client-car-table',
@@ -13,6 +14,8 @@ import { CarAdData } from '../../shared/interfaces';
 })
 export class CarTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('downloadCsv') private downloadCsv: ElementRef;
+
   displayedColumns: string[] = [
     'brand',
     'model',
@@ -54,5 +57,16 @@ export class CarTableComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.changeDetector.detectChanges();
     });
+  }
+
+  public async downloadCarCsv(): Promise<void> {
+    const blob = await this._carDataService.downloadSingleCsv();
+    const url = window.URL.createObjectURL(blob);
+    const link = this.downloadCsv.nativeElement;
+    link.href = url;
+    link.download = 'CarDataCsv.csv';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   }
 }
