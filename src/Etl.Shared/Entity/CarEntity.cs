@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 namespace Etl.Shared.Entity {
     public class CarEntity {
         public Guid Id { get; set; } = Guid.NewGuid ();
+        public string ArticleUrl { get; set; }
         public string Offer { get; set; }
         public string Category { get; set; }
         public string Brand { get; set; }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using AngleSharp;
+using Etl.Load.Service;
 using Etl.Logger;
 using Etl.Shared;
 using Etl.Shared.CustomExceptions;
@@ -21,13 +23,15 @@ namespace Etl.Extract.Service
         private readonly ICustomLogger _logger;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ITransformer _transformerService;
+        private readonly ILoader _loader;
         private ISender _sender;
 
-        public Extractor(ICustomLogger logger, IHostingEnvironment hostingEnvironment, ITransformer transformerService)
+        public Extractor(ICustomLogger logger, IHostingEnvironment hostingEnvironment, ITransformer transformerService, ILoader loader)
         {
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
             _transformerService = transformerService;
+            _loader = loader;
         }
 
         public async Task Extract(WorkMode workMode, string basicUrl)
@@ -41,10 +45,19 @@ namespace Etl.Extract.Service
                 articlesUrl.AddRange(await GetArticlesUrlFromPage(basicUrl + "?page=" + i));
             }
             _logger.Log($"Number of articles: {articlesUrl.Count}");
-
+            int beforeLoad = 0;
+            if (workMode == WorkMode.Continuous) {
+                beforeLoad = await _loader.GetNumgerOfRecords();
+            }
             foreach (var url in articlesUrl)
             {
-                await _sender.Send(await GetArticleContent(url));
+                var articleContent = await GetArticleContent(url);
+                if (articleContent == null) continue;
+                await _sender.Send(articleContent);
+            }
+            if (workMode == WorkMode.Continuous) {
+                var addedRecords = await _loader.GetNumgerOfRecords() - beforeLoad;
+                _logger.Log($"Load {addedRecords} records to database");
             }
             await Task.CompletedTask;
         }
@@ -61,8 +74,11 @@ namespace Etl.Extract.Service
                 if(errorMessage != null){
                     throw new ArticleNotAvailableException();
                 }
-                return document.All
-                    .Where(x => x.Id == "siteWrap").Single().OuterHtml;
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(document.All.Where(x => x.ClassName == "offer-header__row").Single().OuterHtml);
+                stringBuilder.Append(document.All.Where(x => x.ClassName == "offer-content__main-column").Single().OuterHtml);
+                stringBuilder.Append($@"<div class=""customArticleUrl"">{url}</div>");
+                return stringBuilder.ToString();
             }
             catch (ArticleNotAvailableException)
             {
@@ -123,8 +139,10 @@ namespace Etl.Extract.Service
 
         private async Task InitSender(WorkMode workMode)
         {
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"); //todo path from config
-            _sender = await new SenderFactory(workMode, path, _transformerService).GetSender();
+            if (_sender == null) {
+                var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract");
+                _sender = await new SenderFactory(workMode, path, _transformerService).GetSender();
+            }
         }
     }
 }

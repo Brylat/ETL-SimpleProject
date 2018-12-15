@@ -8,10 +8,10 @@ namespace Etl.Shared.Factories {
 
         public FileSender (string path) {
             _path = path;
-            Directory.CreateDirectory (_path);
         }
         public async Task Send (string content) {
             if (string.IsNullOrEmpty(content)) return;
+            if (!Directory.Exists(_path)) Directory.CreateDirectory (_path);
             var filePath = Path.Combine (_path, string.Format (@"{0}.tmp", Guid.NewGuid ()));
             File.WriteAllText (filePath, content);
             await Task.CompletedTask;

@@ -11,5 +11,6 @@ namespace Etl.Load.Service
         Task<List<CarEntity>> GetAllCars();
          Task Load(string content);
          Task LoadFromFiles();
+         Task<int> GetNumgerOfRecords();
     }
 }

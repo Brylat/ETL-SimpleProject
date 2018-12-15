@@ -33,7 +33,7 @@ namespace Etl.Api.Controllers {
         }
 
         [HttpPost ("fullEtl")]
-        public async Task<IActionResult> fullEtl ([FromBody] EtlCommand command) {
+        public async Task<IActionResult> FullEtl ([FromBody] EtlCommand command) {
             await _extractor.Extract (WorkMode.Continuous, command.Url);
             return Ok ();
         }

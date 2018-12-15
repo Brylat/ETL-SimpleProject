@@ -65,14 +65,14 @@ namespace Etl.Transform.Service
 
         public async Task LoadFromFiles() {
             await InitSender(WorkMode.Partial);
-            //catalog name from config
-            foreach(var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract"))){
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterExtract");
+            foreach(var fileContent in _fileLoader.GetNextFileContent(path)){
                 await Transform(fileContent);
             }
+            await _fileLoader.CleanFolders(new List<string>() {path});
         }
 
         public async Task Transform (string content) {
-            //transform intoJson, create object template in shared becouse we need the same object in Loader to deserialize
             var configJson = GenerateJson();
             var config = StructuredDataConfig.ParseJsonString(configJson);
             var openScraping = new StructuredDataExtractor(config);
@@ -91,14 +91,18 @@ namespace Etl.Transform.Service
             jsonObject.Add(new JProperty("Equipment", "//div[contains(@class, \'offer-features__row\')]//li[@class=\'offer-features__item\']"));
             jsonObject.Add(new JProperty("Description", "//div[contains(@class, \'offer-description\')]"));
             jsonObject.Add(new JProperty("Price", "//span[contains(@class, \'offer-price__number\')]"));
+            jsonObject.Add(new JProperty("ArticleUrl", "//div[contains(@class, \'customArticleUrl\')]"));
 
             return jsonObject.ToString();
         }
 
         private async Task InitSender(WorkMode workMode)
         {
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform"); //todo path from config
-            _sender = await new SenderFactory(workMode, path, _loaderService).GetSender();
+            if(_sender == null)
+            {
+                var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform");
+                _sender = await new SenderFactory(workMode, path, _loaderService).GetSender();
+            }
         }
     }
 } 

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Etl.Logger;
 
 namespace Etl.Load.Service
 {
@@ -17,12 +18,14 @@ namespace Etl.Load.Service
         private readonly IFileLoader _fileLoader;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly BaseContext.Context _context;
+        private readonly ICustomLogger _logger;
 
-        public Loader(IFileLoader fileLoader, IHostingEnvironment hostingEnvironment, BaseContext.Context context)
+        public Loader(IFileLoader fileLoader, IHostingEnvironment hostingEnvironment, BaseContext.Context context, ICustomLogger logger)
         {
             _fileLoader = fileLoader;
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _logger = logger;
         }
 
         public async Task<List<CarEntity>> GetAllCars()
@@ -37,14 +40,20 @@ namespace Etl.Load.Service
                 _context.Add<CarEntity>(car);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch
             {
-                var x = "error";
+                _logger.Log("Error while parsing or save to database for one item.");
             }
+        }
+
+        public async Task<int> GetNumgerOfRecords()
+        {
+            return await Task.FromResult(_context.Cars.Count());
         }
         public async Task ClearAllData()
         {
             _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Cars""");
+            _logger.Log("Database was cleaned.");
             await Task.CompletedTask;
         }
         public async Task Recive(string content)
@@ -54,11 +63,15 @@ namespace Etl.Load.Service
 
         public async Task LoadFromFiles()
         {
-            //catalog name from config
-            foreach (var fileContent in _fileLoader.GetNextFileContent(Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform")))
+            var beforeLoadCount = await GetNumgerOfRecords();
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "AfterTransform");
+            foreach (var fileContent in _fileLoader.GetNextFileContent(path))
             {
                 await Load(fileContent);
             }
+            var afterLoadCount = await GetNumgerOfRecords();
+            _logger.Log($"Load {afterLoadCount - beforeLoadCount} records to database");
+            await _fileLoader.CleanFolders(new List<string>() {path});
         }
     }
 }
