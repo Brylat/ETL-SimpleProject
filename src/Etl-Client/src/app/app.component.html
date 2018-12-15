@@ -39,26 +39,6 @@
             </button>
           </span>
 
-          <button mat-button mat-stroked-button color="accent" *ngIf="!(isAuthenticated$ | async)" (click)="onLoginClick()">
-            {{ 'etl-client.menu.login' | translate }}
-          </button>
-
-          <button *ngIf="(isAuthenticated$ | async)"
-                  mat-icon-button
-                  [matMenuTriggerFor]="toolbarUserMenu">
-            <fa-icon icon="user-circle"></fa-icon>
-          </button>
-          <mat-menu #toolbarUserMenu="matMenu">
-            <button mat-menu-item (click)="onLogoutClick()">
-              <mat-icon><fa-icon icon="power-off"></fa-icon></mat-icon>
-              <span>{{ 'etl-client.menu.logout' | translate }}</span>
-            </button>
-          </mat-menu>
-
-          <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
-            <fa-icon icon="cog"></fa-icon>
-          </button>
-
           <a [matTooltip]="'etl-client.header.github' | translate"
              matTooltipPosition="before"
              mat-icon-button
@@ -67,14 +47,6 @@
              target="_blank">
             <fa-icon [icon]="['fab','github']"></fa-icon>
           </a>
-
-          <span *ngIf="language$ | async as language">
-            <mat-select [ngModel]="language" (selectionChange)="onLanguageSelect($event)">
-              <mat-option *ngFor="let l of languages" [value]="l">
-                {{ l.toUpperCase() }}
-              </mat-option>
-            </mat-select>
-          </span>
         </mat-toolbar>
       </div>
       <div class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.path">
