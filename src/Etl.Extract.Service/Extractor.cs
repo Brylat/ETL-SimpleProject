@@ -36,6 +36,11 @@ namespace Etl.Extract.Service
 
         public async Task Extract(WorkMode workMode, string basicUrl)
         {
+            if(!basicUrl.Contains("otomoto.pl/osobowe"))
+            {
+                _logger.Log($"Wrong url: {basicUrl}");
+                return;
+            }
             await InitSender(workMode);
             var numberOfPage = await GetNumberOfPages(basicUrl);
             _logger.Log($"Number of pages: {numberOfPage}");
