@@ -21,6 +21,7 @@ namespace Etl.Transform.Service
         private readonly ILoader _loaderService;
         private readonly IFileLoader _fileLoader;
         private ISender _sender;
+        private string _jsonConfig;
 
         private readonly Dictionary<string, string> jsonDictionary = new Dictionary<string, string>() {
             {"Offer", "Oferta od"},
@@ -56,6 +57,7 @@ namespace Etl.Transform.Service
             _hostingEnvironment = hostingEnvironment;
             _loaderService = loader;
             _fileLoader = fileLoader;
+            _jsonConfig = GenerateJson();
         }
 
         public async Task Recive (string content) {
@@ -73,8 +75,7 @@ namespace Etl.Transform.Service
         }
 
         public async Task Transform (string content) {
-            var configJson = GenerateJson();
-            var config = StructuredDataConfig.ParseJsonString(configJson);
+            var config = StructuredDataConfig.ParseJsonString(_jsonConfig);
             var openScraping = new StructuredDataExtractor(config);
             var scrapingResults = openScraping.Extract(content);
 
