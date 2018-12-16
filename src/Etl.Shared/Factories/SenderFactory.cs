@@ -18,7 +18,7 @@ namespace Etl.Shared.Factories
             ISender sender = null;
             switch(_workMode) {
                 case WorkMode.Continuous:
-                    sender = new ServiceSender(_service, _workMode);
+                    sender = new ServiceSender(_service);
                     break;
                 case WorkMode.Partial:
                     sender = new FileSender(_path);
