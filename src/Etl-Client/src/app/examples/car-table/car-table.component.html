@@ -19,6 +19,11 @@
             <td mat-cell *matCellDef="let element"> {{element.offer}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> price </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+        </ng-container>
+        
         <ng-container matColumnDef="category">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> category </th>
             <td mat-cell *matCellDef="let element"> {{element.category}} </td>
@@ -128,10 +133,15 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> vin </th>
             <td mat-cell *matCellDef="let element"> {{element.vin}} </td>
         </ng-container>
-        'particleFilter',
+        
         <ng-container matColumnDef="particleFilter">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> particleFilter </th>
             <td mat-cell *matCellDef="let element"> {{element.particleFilter}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="articleUrl">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> articleUrl </th>
+            <td mat-cell *matCellDef="let element"> {{element.articleUrl}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

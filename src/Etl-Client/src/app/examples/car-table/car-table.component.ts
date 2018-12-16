@@ -20,6 +20,7 @@ export class CarTableComponent implements OnInit {
     'brand',
     'model',
     'offer',
+    'price',
     'category',
     'version',
     'productionYear',
@@ -42,7 +43,8 @@ export class CarTableComponent implements OnInit {
     'noAccidents',
     'serviceHistory',
     'vin',
-    'particleFilter'
+    'particleFilter',
+    'articleUrl'
   ];
   dataSource;
 
