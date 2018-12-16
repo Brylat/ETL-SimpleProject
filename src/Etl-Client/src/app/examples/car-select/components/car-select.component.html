@@ -110,9 +110,6 @@
               (click)="save()">
               {{ 'etl-client.examples.form.save' | translate }}
             </button>
-            <button type="reset" mat-raised-button (click)="getSuggestedCities()" [ngClass]="routeAnimationsElements">
-              {{ 'etl-client.examples.form.reset' | translate }}
-            </button>
           </div>
           <mat-form-field style="width: 100%;">
             <input [(ngModel)]="url" [ngModelOptions]="{standalone: true}" matInput placeholder="URL" value="" [ngClass]="routeAnimationsElements">
